@@ -8,7 +8,9 @@ if (sessionStorage.getItem('dynamic-memory-gate-pass') !== '1') {
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Dynamic Memory · Training Modes</title>
+<title>Cognitivo Gym · Training Modes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
@@ -51,23 +53,63 @@ body{
   text-align:center;
 }
 
+/* ── La marca ───────────────────────────────────────────────────
+   Las letras entran una detras de otra, escritas una por span en el
+   HTML en vez de partidas con JavaScript: asi entran aunque el guion
+   tarde, y en un visor tarda.
+
+   EL FONDO SE QUEDA NEGRO. Arriba esta escrito por que, y vale mas
+   que cualquier adorno: es el mismo negro que todas las paginas de
+   este flujo, en pantalla y dentro de un visor. En la puerta hay
+   manchas de color que se mueven; aqui no, a proposito. Lo que da
+   el golpe es la entrada, no el fondo. */
 .arena-title{
-  font-size:1.6rem;
-  font-weight:900;
-  font-style:italic;
-  letter-spacing:.03em;
+  font-family:'Bebas Neue',Arial,Helvetica,sans-serif;
+  font-size:clamp(2rem,6.2vw,3.6rem);
+  font-weight:400;
+  font-style:normal;
+  letter-spacing:.02em;
+  line-height:1;
   text-transform:uppercase;
-  margin:28px 0 2px;
-  text-shadow:0 0 30px rgba(243,116,24,.4);
+  margin:28px 0 6px;
+  padding:0 6px;
 }
-.arena-title span{color:#f37418}
+.arena-title .w{display:inline-block;white-space:nowrap}
+.arena-title .w+.w{margin-left:.3em}
+.arena-title .g{color:#f37418}
+.arena-title i{font-style:normal;display:inline-block;opacity:0;
+  transform:translateY(.45em) scale(.92);
+  animation:letra .55s cubic-bezier(.2,.8,.25,1) forwards}
+@keyframes letra{to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Y ya dentro, late. Solo el resplandor: nada salta mientras
+   alguien escoge en que entrenar. */
+.arena-title{animation:aliento 4.5s ease-in-out 1.2s infinite}
+@keyframes aliento{
+  0%,100%{text-shadow:0 0 24px rgba(243,116,24,.38),0 0 54px rgba(124,58,237,.16)}
+  50%    {text-shadow:0 0 38px rgba(243,116,24,.62),0 0 92px rgba(124,58,237,.3)}}
+
 .arena-sub{
-  font-size:.72rem;
-  font-weight:900;
-  letter-spacing:.24em;
-  text-transform:uppercase;
-  color:#7c3aed;
+  font-size:clamp(.78rem,2.2vw,1rem);
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:none;
+  color:#c6bcd8;
   margin-bottom:26px;
+  opacity:0;
+  animation:entra .7s ease-out .95s forwards;
+}
+@keyframes entra{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Las tarjetas suben detras, en orden. Cada grupo con su retraso,
+   puesto en el marcado: son seis, no sesenta. */
+.group-label,.quarter-card,.rit-card,footer,.school-tag{
+  opacity:0;animation:entra .6s ease-out forwards}
+
+@media(prefers-reduced-motion:reduce){
+  .arena-title{animation:none !important;text-shadow:0 0 30px rgba(243,116,24,.4)}
+  .arena-title i,.arena-sub,.group-label,.quarter-card,.rit-card,footer,.school-tag{
+    animation:none !important;opacity:1 !important;transform:none !important}
 }
 
 /* Section heading — the parts are genuinely different kinds of
@@ -156,38 +198,38 @@ footer{
 
 <div id="stage">
   <div id="panel">
-    <div class="arena-title">DYNAMIC <span>MEMORY</span></div>
-    <div class="arena-sub">Memory &amp; Reaction Basketball Training</div>
+    <h1 class="arena-title" aria-label="Cognitivo Gym"><span class="w"><i style="animation-delay:90ms">C</i><i style="animation-delay:138ms">O</i><i style="animation-delay:186ms">G</i><i style="animation-delay:234ms">N</i><i style="animation-delay:282ms">I</i><i style="animation-delay:330ms">T</i><i style="animation-delay:378ms">I</i><i style="animation-delay:426ms">V</i><i style="animation-delay:474ms">O</i></span><span class="w g"><i style="animation-delay:522ms">G</i><i style="animation-delay:570ms">Y</i><i style="animation-delay:618ms">M</i></span></h1>
+    <div class="arena-sub">Train Your Mind. Build Your Skills.</div>
 
-    <div class="group-label">Memory</div>
+    <div class="group-label" style="animation-delay:1.05s">Memory</div>
     <div class="quarter-grid">
-      <a class="quarter-card" href="dynamic-memory-the-fortress.html">
+      <a class="quarter-card" href="dynamic-memory-the-fortress.html" style="animation-delay:1.12s">
         <div class="quarter-num">Q1</div>
         <div class="quarter-name">The Fortress</div>
       </a>
-      <a class="quarter-card" href="dynamic-memory-recall.html">
+      <a class="quarter-card" href="dynamic-memory-recall.html" style="animation-delay:1.19s">
         <div class="quarter-num">Q2</div>
         <div class="quarter-name">Recall</div>
       </a>
-      <a class="quarter-card" href="dynamic-memory-recognition.html">
+      <a class="quarter-card" href="dynamic-memory-recognition.html" style="animation-delay:1.26s">
         <div class="quarter-num">Q3</div>
         <div class="quarter-name">Recognition</div>
       </a>
-      <a class="quarter-card" href="dynamic-memory-standings.html">
+      <a class="quarter-card" href="dynamic-memory-standings.html" style="animation-delay:1.33s">
         <div class="quarter-num">🏆</div>
         <div class="quarter-name">Memory Standings</div>
       </a>
     </div>
 
-    <div class="group-label">Reaction</div>
-    <a class="rit-card" href="ritnome.html">
+    <div class="group-label" style="animation-delay:1.4s">Reaction</div>
+    <a class="rit-card" href="ritnome.html" style="animation-delay:1.47s">
       <div class="rit-num">🏀 Ritnome</div>
       <div class="rit-name">Go No Go &amp; Reaction Speed</div>
       <div class="rit-note">Tap on the beat. Included with your access.</div>
     </a>
 
-    <footer>Gostar Digital LLC</footer>
-    <div class="school-tag" id="schoolTag"></div>
+    <footer style="animation-delay:1.6s">Gostar Digital LLC</footer>
+    <div class="school-tag" id="schoolTag" style="animation-delay:1.65s"></div>
   </div>
 </div>
 
