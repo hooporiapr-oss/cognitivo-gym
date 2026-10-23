@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Dynamic Memory · Access</title>
+<title>Cognitivo Gym · Access</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
@@ -11,15 +11,62 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;overflow:hidden}
 
-#center{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center,#1a0f2e 0%,#000 70%)}
+/* ── El fondo, que respira ──────────────────────────────────────
+   Tres manchas de color muy desenfocadas que se mueven despacio.
+   Se mueven con transform y nada mas: una pantalla Promethean no
+   es un telefono nuevo, y animar posiciones o sombras la pone de
+   rodillas. transform y opacity los hace la tarjeta grafica. */
+#bg{position:fixed;inset:0;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#1a0f2e 0%,#000 70%)}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;will-change:transform}
+.orb.a{width:46vmax;height:46vmax;left:-14vmax;top:-16vmax;background:#7c3aed;animation:deriva1 26s ease-in-out infinite}
+.orb.b{width:38vmax;height:38vmax;right:-12vmax;bottom:-14vmax;background:#f37418;opacity:.32;animation:deriva2 32s ease-in-out infinite}
+.orb.c{width:30vmax;height:30vmax;left:40%;top:55%;background:#5b21b6;opacity:.38;animation:deriva3 38s ease-in-out infinite}
+@keyframes deriva1{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(8vmax,6vmax,0) scale(1.15)}}
+@keyframes deriva2{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-7vmax,-5vmax,0) scale(1.2)}}
+@keyframes deriva3{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-6vmax,4vmax,0) scale(.85)}}
 
-.gate-title{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:.03em;text-transform:uppercase;margin-bottom:10px;text-shadow:0 0 30px rgba(124,58,237,.5)}
-.gate-title span{color:var(--purple)}
-.gate-sub{font-size:.85rem;color:var(--muted);margin-bottom:14px}
-.gate-parts{font-size:.68rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase;color:#5c5468;margin-bottom:38px}
-.gate-parts b{color:var(--orange);font-weight:900}
+/* Unas chispas, pocas. Seis se ven; sesenta se notan en el reloj. */
+.mota{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:.35;will-change:transform}
+@keyframes sube{0%{transform:translateY(0);opacity:0}10%{opacity:.4}90%{opacity:.4}100%{transform:translateY(-70vh);opacity:0}}
 
-.code-panel{width:100%;max-width:340px}
+#center{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;z-index:1}
+
+/* ── La marca ───────────────────────────────────────────────────
+   Las letras entran una detras de otra. Van escritas en el HTML,
+   una por span, en vez de partirlas con JavaScript: asi entran
+   aunque el guion tarde, que en un panel viejo tarda. */
+.gate-title{font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.3rem,9.4vw,6.5rem);line-height:.98;letter-spacing:.02em;
+  text-transform:uppercase;margin-bottom:18px;padding:0 6px}
+/* Las palabras no se parten, pero la marca si puede bajar de linea.
+   Con nowrap llenaba la pantalla de borde a borde en un telefono —y
+   eso es CON la letra condensada cargada. Si Bebas no llega, que en
+   un panel sin red o viejo puede pasar, la de repuesto es mas ancha
+   y se saldria. Partir entre COGNITIVO y GYM es feo; salirse es
+   peor, y pasa justo donde no se puede arreglar. */
+.gate-title .w{display:inline-block;white-space:nowrap}
+.gate-title .w+.w{margin-left:.3em}
+.gate-title i{font-style:normal;display:inline-block;opacity:0;
+  transform:translateY(.5em) scale(.9);
+  animation:letra .62s cubic-bezier(.2,.8,.25,1) forwards}
+.gate-title .g{color:var(--orange)}
+@keyframes letra{to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Y una vez dentro, late. El resplandor es lo unico que se mueve
+   despues: la marca no debe seguir saltando mientras alguien
+   escribe su codigo. */
+.gate-title{animation:aliento 4.5s ease-in-out 1.6s infinite}
+@keyframes aliento{
+  0%,100%{text-shadow:0 0 26px rgba(124,58,237,.45),0 0 60px rgba(124,58,237,.18)}
+  50%    {text-shadow:0 0 40px rgba(124,58,237,.75),0 0 100px rgba(243,116,24,.3)}}
+
+.gate-sub{font-size:clamp(.82rem,2.6vw,1.12rem);font-weight:600;letter-spacing:.04em;
+  color:#c6bcd8;margin-bottom:40px;opacity:0;
+  animation:entra .8s ease-out 1.25s forwards}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.code-panel{width:100%;max-width:340px;opacity:0;
+  animation:entra .8s ease-out 1.5s forwards}
 .code-label{font-size:.68rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
 .code-input{width:100%;padding:16px;border-radius:10px;border:2px solid rgba(124,58,237,.4);background:rgba(255,255,255,.06);color:#fff;font-size:1.5rem;font-weight:900;letter-spacing:.3em;text-transform:uppercase;text-align:center;font-family:'Courier New',monospace}
 .code-input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 24px rgba(124,58,237,.35)}
@@ -31,18 +78,36 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:var(--dark);col
 .enter-btn:disabled{opacity:.6;cursor:default}
 .err{margin-top:14px;color:#ff8888;font-size:.82rem;font-weight:700;min-height:18px;line-height:1.45}
 
-.brandmark{margin-top:44px;font-size:.68rem;font-weight:900;letter-spacing:.3em;text-transform:uppercase;color:#4a5058}
+.brandmark{margin-top:44px;font-size:.68rem;font-weight:900;letter-spacing:.3em;text-transform:uppercase;color:#4a5058;opacity:0;
+  animation:entra .8s ease-out 1.9s forwards}
 .brandmark b{color:var(--muted);font-style:italic}
 
-@media(max-width:480px){.gate-title{font-size:1.8rem}}
+/* Quien pide que no se mueva nada, no ve nada moverse. Es una
+   preferencia del sistema y la pone alguien a quien el movimiento
+   le sienta mal de verdad. Todo aparece, en su sitio, sin viaje. */
+@media(prefers-reduced-motion:reduce){
+  .orb,.mota,.gate-title{animation:none !important}
+  .gate-title i,.gate-sub,.code-panel,.brandmark{
+    animation:none !important;opacity:1 !important;transform:none !important}
+  .gate-title{text-shadow:0 0 30px rgba(124,58,237,.5)}
+}
 </style>
 </head>
 <body>
 
+<div id="bg" aria-hidden="true">
+  <span class="orb a"></span><span class="orb b"></span><span class="orb c"></span>
+  <span class="mota" style="left:12%;bottom:-6px;animation:sube 14s linear .4s infinite"></span>
+  <span class="mota" style="left:28%;bottom:-6px;animation:sube 19s linear 2.6s infinite"></span>
+  <span class="mota" style="left:47%;bottom:-6px;animation:sube 16s linear 5.1s infinite"></span>
+  <span class="mota" style="left:66%;bottom:-6px;animation:sube 21s linear 1.3s infinite"></span>
+  <span class="mota" style="left:81%;bottom:-6px;animation:sube 17s linear 7.4s infinite"></span>
+  <span class="mota" style="left:92%;bottom:-6px;animation:sube 23s linear 3.9s infinite"></span>
+</div>
+
 <div id="center">
-  <div class="gate-title">DYNAMIC <span>MEMORY</span></div>
-  <div class="gate-sub">Memory & Reaction Basketball Training</div>
-  <div class="gate-parts">Memory Games · <b>Ritnome</b> · Standings</div>
+  <h1 class="gate-title" aria-label="Cognitivo Gym"><span class="w"><i style="animation-delay:120ms">C</i><i style="animation-delay:175ms">O</i><i style="animation-delay:230ms">G</i><i style="animation-delay:285ms">N</i><i style="animation-delay:340ms">I</i><i style="animation-delay:395ms">T</i><i style="animation-delay:450ms">I</i><i style="animation-delay:505ms">V</i><i style="animation-delay:560ms">O</i></span><span class="w g"><i style="animation-delay:615ms">G</i><i style="animation-delay:670ms">Y</i><i style="animation-delay:725ms">M</i></span></h1>
+  <div class="gate-sub">Train Your Mind. Build Your Skills.</div>
 
   <div class="code-panel">
     <div class="code-label">Access Code</div>
